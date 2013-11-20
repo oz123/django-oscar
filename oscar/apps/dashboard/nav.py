@@ -3,7 +3,7 @@ from django.core.exceptions import ImproperlyConfigured
 from django.conf import settings
 from django.http import Http404
 from oscar.views.decorators import check_permissions
-
+from oscar.core.utils import update_dict_recursively
 
 class Node(object):
 
@@ -94,7 +94,9 @@ def get_nodes(user):
     """
     Return the visible navigation nodes for the passed user
     """
-    all_nodes = create_menu(settings.OSCAR_DASHBOARD_NAVIGATION)
+    menu = update_dict_recursively(settings.OSCAR_DASHBOARD_NAVIGATION,
+                                    settings.OSCAR_DASHBOARD_NAVIGATION_OVERRIDES)
+    all_nodes = create_menu(menu.values())
     visible_nodes = []
     for node in all_nodes:
         filtered_node = node.filter(user)
@@ -110,18 +112,26 @@ def create_menu(menu_items, parent=None):
     Create the navigation nodes based on a passed list of dicts
     """
     nodes = []
-    for menu_dict in menu_items:
+    items = []
+    for item in sorted(menu_items, key=lambda x: x.get('position', -1)):
+        position = item.get('position', False)
+        if position:
+            items.insert(position, item)
+        else:
+            items.append(item)
+
+    for menu_dict in items:
         try:
             label = menu_dict['label']
         except KeyError:
             raise ImproperlyConfigured(
-                "No label specified for menu item in dashboard")
+                "No label specified for menu item %s in dashboard" % menu_dict)
 
         children = menu_dict.get('children', [])
         if children:
             node = Node(label=label, icon=menu_dict.get('icon', None),
                         access_fn=menu_dict.get('access_fn', None))
-            create_menu(children, parent=node)
+            create_menu(children.values(), parent=node)
         else:
             node = Node(label=label, icon=menu_dict.get('icon', None),
                         url_name=menu_dict.get('url_name', None),

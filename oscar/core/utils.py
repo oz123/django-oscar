@@ -5,6 +5,7 @@ from django.utils.timezone import get_current_timezone, is_naive, make_aware
 from unidecode import unidecode
 from django.conf import settings
 from django.template.defaultfilters import date as date_filter
+import collections
 
 
 def slugify(value):
@@ -74,3 +75,15 @@ def format_datetime(dt, format=None):
         localtime = dt.astimezone(get_current_timezone())
     return date_filter(localtime, format)
 
+
+def update_dict_recursively(d, u):
+    """
+    Updates nested dict d with nested dict u recursively 
+    """
+    for k, v in u.iteritems():
+        if isinstance(v, collections.Mapping):
+            r = update_dict_recursively(d.get(k, {}), v)
+            d[k] = r
+        else:
+            d[k] = u[k]
+    return d

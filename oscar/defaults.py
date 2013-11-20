@@ -1,5 +1,5 @@
 from django.utils.translation import ugettext_lazy as _
-
+from collections import OrderedDict
 OSCAR_SHOP_NAME = 'Oscar'
 OSCAR_SHOP_TAGLINE = ''
 
@@ -85,113 +85,136 @@ OSCAR_COOKIES_DELETE_ON_LOGOUT = ['oscar_recently_viewed_products', ]
 OSCAR_HIDDEN_FEATURES = []
 
 # Menu structure of the dashboard navigation
-OSCAR_DASHBOARD_NAVIGATION = [
-    {
+OSCAR_DASHBOARD_NAVIGATION = {
+    'dashboard': {
         'label': _('Dashboard'),
         'icon': 'icon-th-list',
         'url_name': 'dashboard:index',
+        'position': 0
     },
-    {
+    'catalogue': {
         'label': _('Catalogue'),
         'icon': 'icon-sitemap',
-        'children': [
-            {
+        'position': 1,
+        'children': {
+            'products': {
                 'label': _('Products'),
                 'url_name': 'dashboard:catalogue-product-list',
+                'position': 0
             },
-            {
+            'categories': {
                 'label': _('Categories'),
                 'url_name': 'dashboard:catalogue-category-list',
+                'position': 1
             },
-            {
+            'ranges': {
                 'label': _('Ranges'),
                 'url_name': 'dashboard:range-list',
+                'position': 2
             },
-            {
+            'stock-alerts': {
                 'label': _('Low stock alerts'),
                 'url_name': 'dashboard:stock-alert-list',
+                'position': 3
             },
-        ]
+        }
     },
-    {
+    'fulfilment': {
         'label': _('Fulfilment'),
         'icon': 'icon-shopping-cart',
-        'children': [
-            {
+        'position': 2,
+        'children': {
+            'orders-list': {
                 'label': _('Order management'),
                 'url_name': 'dashboard:order-list',
+                'position': 0
             },
-            {
+            'order-stats': {
                 'label': _('Statistics'),
                 'url_name': 'dashboard:order-stats',
+                'position': 0
             },
-            {
+            'partners': {
                 'label': _('Partners'),
                 'url_name': 'dashboard:partner-list',
+                'position': 0
             },
-        ]
+        }
     },
-    {
+    'customers': {
         'label': _('Customers'),
         'icon': 'icon-group',
-        'children': [
-            {
+        'position': 3,
+        'children': {
+            'users': {
                 'label': _('Customer management'),
                 'url_name': 'dashboard:users-index',
+                'position': 0
             },
-            {
+            'user-alerts': {
                 'label': _('Stock alert requests'),
                 'url_name': 'dashboard:user-alert-list',
+                'position': 1
             },
-        ]
+        }
     },
-    {
+    'offers': {
         'label': _('Offers'),
         'icon': 'icon-bullhorn',
-        'children': [
-            {
+        'position': 4,
+        'children': {
+            'list': {
                 'label': _('Offer management'),
                 'url_name': 'dashboard:offer-list',
+                'position': 0
             },
-            {
+            'vouchers': {
                 'label': _('Vouchers'),
                 'url_name': 'dashboard:voucher-list',
+                'position': 1
             },
-        ],
+        },
     },
-    {
+    'content': {
         'label': _('Content'),
         'icon': 'icon-folder-close',
-        'children': [
-            {
+        'position': 5,
+        'children': {
+            'blocks': {
                 'label': _('Content blocks'),
                 'url_name': 'dashboard:promotion-list',
+                'position': 0
             },
-            {
+            'blocks-by-page': {
                 'label': _('Content blocks by page'),
                 'url_name': 'dashboard:promotion-list-by-page',
+                'position': 1
             },
-            {
+            'pages': {
                 'label': _('Pages'),
                 'url_name': 'dashboard:page-list',
+                'position': 2
             },
-            {
+            'email-templates': {
                 'label': _('Email templates'),
                 'url_name': 'dashboard:comms-list',
+                'position': 3
             },
-            {
+            'reviews': {
                 'label': _('Reviews'),
                 'url_name': 'dashboard:reviews-list',
+                'position': 4
             },
-        ]
+        }
     },
-    {
+    'reports': {
         'label': _('Reports'),
         'icon': 'icon-bar-chart',
         'url_name': 'dashboard:reports-index',
+        'position': 6
     },
-]
-
+}
+OSCAR_DASHBOARD_NAVIGATION_OVERRIDES = {}
 # Search facets
 OSCAR_SEARCH_FACETS = {
     'fields': {
