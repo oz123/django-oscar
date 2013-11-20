@@ -29,6 +29,7 @@
 
 {% block dashboard_content %}
     <div class="row-fluid">
+    {% block  user_general_info %}
         <div class="">
             <div class="table-header">
                 <h2>{% trans "General" %}</h2>
@@ -98,7 +99,9 @@
                 {% endwith %}
             </table>
         </div>
+    {% endblock %}
 
+    {% block  user_additional_info %}
         <div class="tabbable dashboard">
             <ul class="nav nav-tabs">
                 <li class="active"><a href="#user_orders" data-toggle="tab">{% trans "Orders" %}</a></li>
@@ -190,4 +193,5 @@
             </div>
         </div>
     </div>
+    {% endblock %}
 {% endblock dashboard_content %}
