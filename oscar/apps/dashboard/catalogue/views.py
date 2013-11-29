@@ -248,7 +248,8 @@ class ProductCreateUpdateView(generic.UpdateView):
         is_valid = form.is_valid() and all([formset.is_valid()
                                             for formset in formsets.values()])
 
-        if is_valid:
+        cross_form_validation_result = self.clean(form, formsets)
+        if is_valid and cross_form_validation_result:
             return self.forms_valid(form, formsets)
         else:
             return self.forms_invalid(form, formsets)
@@ -260,6 +261,15 @@ class ProductCreateUpdateView(generic.UpdateView):
     # forms_valid or forms_invalid respectively, which do the redisplay or
     # redirect.
     form_valid = form_invalid = process_all_forms
+
+    def clean(self, form, formsets):
+        """
+        Perform any cross-form/formset validation. If there are errors, attach
+        errors to a form or a form field so that they are displayed to the user
+        and return False. If everything is valid, return True. This method will
+        be called regardless of whether the individual forms are valid.
+        """
+        return True
 
     def forms_valid(self, form, formsets):
         """
