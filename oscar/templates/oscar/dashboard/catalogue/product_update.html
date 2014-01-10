@@ -149,9 +149,10 @@
                                     {% for field in form %}
                                         {% if field.is_hidden %}
                                             {{ field }}
-                                        {% endif %}
-                                        {% if 'attr' not in field.id_for_label %}
-                                            {% include "partials/form_field.html" with field=field %}
+                                        {% else %}
+                                            {% if 'attr' not in field.id_for_label %}
+                                                {% include "partials/form_field.html" with field=field %}
+                                            {% endif %}
                                         {% endif %}
                                     {% endfor %}
 
