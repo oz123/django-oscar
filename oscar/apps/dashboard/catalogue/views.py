@@ -152,7 +152,7 @@ class ProductCreateRedirectView(generic.RedirectView):
             return reverse('dashboard:catalogue-product-list')
         else:
             return reverse('dashboard:catalogue-product-create',
-                           kwargs={'product_class_id': product_class.id})
+                           kwargs={'product_class_slug': product_class.slug})
 
 
 class ProductCreateUpdateView(generic.UpdateView):
@@ -194,9 +194,10 @@ class ProductCreateUpdateView(generic.UpdateView):
         self.creating = not 'pk' in self.kwargs
         if self.creating:
             try:
-                product_class_id = self.kwargs.get('product_class_id', None)
+                product_class_slug = self.kwargs.get('product_class_slug',
+                                                     None)
                 self.product_class = ProductClass.objects.get(
-                    id=product_class_id)
+                    slug=product_class_slug)
             except ObjectDoesNotExist:
                 raise Http404
             else:

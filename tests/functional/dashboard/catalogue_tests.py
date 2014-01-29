@@ -38,7 +38,7 @@ class TestAStaffUser(WebTestCase):
         category = G(Category)
         product_class = ProductClass.objects.create(name="Book")
         page = self.get(reverse('dashboard:catalogue-product-create',
-                                args=(product_class.id,)))
+                                args=(product_class.slug,)))
         form = page.form
         form['upc'] = '123456'
         form['title'] = 'new product'
@@ -51,7 +51,7 @@ class TestAStaffUser(WebTestCase):
         category = G(Category)
         product_class = ProductClass.objects.create(name="Book")
         page = self.get(reverse('dashboard:catalogue-product-create',
-                                args=(product_class.id,)))
+                                args=(product_class.slug,)))
         form = page.form
         form['upc'] = '123456'
         form['title'] = 'new product'
