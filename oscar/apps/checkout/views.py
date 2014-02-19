@@ -53,6 +53,7 @@ class IndexView(CheckoutSessionMixin, FormView):
     template_name = 'checkout/gateway.html'
     form_class = GatewayForm
     success_url = reverse_lazy('checkout:shipping-address')
+    success_url_no_ship = reverse_lazy('checkout:payment-method')
 
     def get(self, request, *args, **kwargs):
         # We redirect immediately to shipping address stage if the user is
@@ -95,7 +96,11 @@ class IndexView(CheckoutSessionMixin, FormView):
         return HttpResponseRedirect(self.get_success_url())
 
     def get_success_url(self):
-        return self.success_url
+        shipping_method = self.get_shipping_method(self.request.basket)
+        if isinstance(shipping_method, NoShippingRequired):
+            return self.success_url_no_ship
+        else:
+            return self.success_url
 
 
 # ================
