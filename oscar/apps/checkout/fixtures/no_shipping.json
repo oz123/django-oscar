@@ -1,0 +1,107 @@
+[
+{
+  "pk": 2, 
+  "model": "partner.partner", 
+  "fields": {
+    "code": "Yoga-Lehrer", 
+    "name": "Yoga-Lehrer", 
+    "users": []
+  }
+},
+{
+  "pk": 9, 
+  "model": "partner.stockrecord", 
+  "fields": {
+    "price_currency": "GBP", 
+    "product": 15, 
+    "partner_sku": "12345678", 
+    "price_retail": "50", 
+    "date_updated": "2014-02-19T22:52:41.484Z", 
+    "num_in_stock": 9999, 
+    "num_allocated": null, 
+    "low_stock_threshold": null, 
+    "date_created": "2014-02-19T22:52:41.484Z", 
+    "partner": 2, 
+    "price_excl_tax": "47", 
+    "cost_price": "45"
+  }
+},
+{
+  "pk": 3, 
+    "model": "catalogue.productclass", 
+  "fields": {
+    "track_stock": false, 
+    "options": [], 
+    "requires_shipping": false, 
+    "name": "Kurse", 
+    "slug": "kurse"
+  }
+},
+{
+  "pk": 8, 
+  "model": "catalogue.category", 
+  "fields": {
+    "description": "", 
+    "numchild": 0, 
+    "slug": "kurse", 
+    "depth": 1, 
+    "full_name": "Kurse", 
+    "path": "Kurse", 
+    "image": "", 
+    "name": "Kurse"
+  }
+},
+{
+  "pk": 15, 
+  "model": "catalogue.product", 
+  "fields": {
+    "status": "", 
+    "rating": null, 
+    "description": "", 
+    "parent": null, 
+    "title": "Yoga fuer anfaeger", 
+    "date_updated": "2014-02-19T22:49:03.026Z", 
+    "related_products": [], 
+    "upc": "12345678", 
+    "score": 0.0, 
+    "is_discountable": true, 
+    "date_created": "2014-02-19T22:49:03.026Z", 
+    "product_options": [], 
+    "slug": "yoga-fuer-anfaeger", 
+    "product_class": 3
+  }
+},
+{
+  "pk": 3, 
+  "model": "catalogue.productclass", 
+  "fields": {
+    "track_stock": false, 
+    "options": [], 
+    "requires_shipping": false, 
+    "name": "Kurse", 
+    "slug": "kurse"
+  }
+},
+{
+  "pk": 8, 
+  "model": "catalogue.category", 
+  "fields": {
+    "description": "", 
+    "numchild": 0, 
+    "slug": "kurse", 
+    "depth": 1, 
+    "full_name": "Kurse", 
+    "path": "Kurse", 
+    "image": "", 
+    "name": "Kurse"
+  }
+},
+{
+  "pk": 7, 
+  "model": "catalogue.productcategory", 
+  "fields": {
+    "category": 8, 
+    "product": 15
+  }
+}
+]

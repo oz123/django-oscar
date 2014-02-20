@@ -15,12 +15,15 @@ from oscar.apps.address.models import Country
 from oscar.apps.voucher.models import Voucher
 from oscar.apps.offer.models import ConditionalOffer
 from oscar.test.basket import add_product
+from django.contrib.auth import get_user_model
 
 # Python 3 compat
 try:
     from imp import reload
 except ImportError:
     pass
+
+User = get_user_model()
 
 
 class CheckoutMixin(object):
@@ -122,6 +125,36 @@ class EnabledAnonymousCheckoutViewsTests(WebTestCase, CheckoutMixin):
             self.assertEqual('barry@example.com', order.guest_email)
 
 
+class TestNoShippingRequired(WebTestCase, CheckoutMixin):
+    fixtures = ['no_shipping.json']
+
+    def setUp(self):
+        user = User.objects.create_user(username='test', password='pass',
+                                        email='test@example.com')
+        self.client.login(email=user.email, password='pass')
+
+    def test_redirect_to_payment(self):
+
+        self.client.post(reverse('basket:add'), {'product_id': 15,
+                                                 'quantity': 1})
+        s = self.client.session
+        s[u'checkout_data'] = {'shipping': {u'method_code':
+                                            u'no-shipping-required'}}
+        s.save()
+        response = self.client.get(reverse('checkout:index'))
+
+        self.assertIsRedirect(response)
+        self.assertTrue('shipping' not in response.url)
+
+    def test_redirect_to_shipping_method(self):
+        product = create_product(price=D('40.00'), num_in_stock=10)
+        self.client.post(reverse('basket:add'),
+                         {'product_id': product.id, 'quantity': 1})
+        response = self.client.get(reverse('checkout:index'))
+        self.assertIsRedirect(response)
+        self.assertTrue('shipping' in response.url)
+
+
 class TestShippingAddressView(WebTestCase, CheckoutMixin):
     fixtures = ['countries.json']
 
@@ -156,7 +189,6 @@ class TestShippingAddressView(WebTestCase, CheckoutMixin):
                                      'country': 'GB',
                                      })
         self.assertIsOk(response)  # no redirect
-
 
     def test_user_must_have_a_nonempty_basket(self):
         response = self.client.get(reverse('checkout:shipping-address'))
@@ -298,7 +330,6 @@ class TestPlacingOrderUsingAVoucher(WebTestCase, CheckoutMixin):
 
     def test_records_discount(self):
         self.assertEqual(1, self.voucher.num_orders)
-
 
 
 class TestPlacingOrderUsingAnOffer(WebTestCase, CheckoutMixin):

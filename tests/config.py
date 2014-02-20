@@ -20,6 +20,7 @@ def configure():
                     'NAME': ':memory:',
                 },
             },
+            'COMPRESS_ROOT': '',
             'INSTALLED_APPS': [
                 'django.contrib.auth',
                 'django.contrib.admin',
@@ -72,6 +73,7 @@ def configure():
             'COMPRESS_ENABLED': False,
             'ADMINS': ('admin@example.com',),
             'DEBUG': False,
+            'USE_TZ': True,
             'SITE_ID': 1,
             'APPEND_SLASH': True,
             'DDF_DEFAULT_DATA_FIXTURE': 'tests.dynamic_fixtures.OscarDynamicDataFixtureClass',
